@@ -22,7 +22,7 @@ const thoughtController = {
         });
     },
     //get one thought by _id
-    getThoughtById:({ params }, res) => {
+    getThoughtById({ params }, res) {
         Thought.findOne({ _id: params.id })
         .populate({
             path: 'reactions',
@@ -91,11 +91,6 @@ const thoughtController = {
             { $push: { reactions: body } },
             { new: true, runValidators: true }
         )
-        .populate({
-            path: 'reactions',
-            select: '-__v'
-        })
-        .select('-__v')
         .then(dbThoughtData => {
             if(!dbThoughtData) {
                 res.status(404).json({ message: 'No thought found with this id' });
